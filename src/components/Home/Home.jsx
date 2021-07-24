@@ -82,7 +82,7 @@ function Home() {
   }
   function debounceSearch(event) {
     let val = event.target.value;
-    console.log(val);
+    // console.log(val);
     const later = () => {
       clearTimeout(debounceTimeout);
       search(val);
