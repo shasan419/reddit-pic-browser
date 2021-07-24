@@ -8,7 +8,6 @@ const ViewWrapper = styled.div`
   box-shadow: 0 0 8px rgb(0 0 0 / 25%);
   display: inline-block;
   text-decoration: none;
-  border-radius: 5px;
 `;
 const Container = styled.div`
   display: flex;
@@ -58,31 +57,36 @@ function View() {
   const { imageData } = location.state;
   return (
     <>
-      <Link to={{ pathname: "/" }} style={{ margin: "30px 60px" }}>
-        <BackLink>Back</BackLink>
-      </Link>
-      <ViewWrapper>
-        <Container>
-          <ContainerMedia src={imageData.url} alt={imageData.post_hint} />
-          <ContainerContent>
-            <Para>
-              title : <b>{imageData.title}</b>
-            </Para>
-            <Para>
-              author : <b>{imageData.author}</b>
-            </Para>
-            <Para>
-              ups : <b>{imageData.ups}</b> | downs : <b>{imageData.downs}</b>
-            </Para>
-            <Para>
-              categories :{" "}
-              {imageData.content_categories.map((x) => (
-                <Category>{x}</Category>
-              ))}
-            </Para>
-          </ContainerContent>
-        </Container>
-      </ViewWrapper>
+      {imageData ? (
+        <>
+          <Link to={{ pathname: "/" }} style={{ margin: "30px 60px" }}>
+            <BackLink>Back</BackLink>
+          </Link>
+          <ViewWrapper>
+            <Container>
+              <ContainerMedia src={imageData.url} alt={imageData.post_hint} />
+              <ContainerContent>
+                <Para>
+                  title : <b>{imageData.title}</b>
+                </Para>
+                <Para>
+                  author : <b>{imageData.author}</b>
+                </Para>
+                <Para>
+                  ups : <b>{imageData.ups}</b> | downs :{" "}
+                  <b>{imageData.downs}</b>
+                </Para>
+                <Para>
+                  categories :{" "}
+                  {imageData.content_categories.map((x) => (
+                    <Category>{x}</Category>
+                  ))}
+                </Para>
+              </ContainerContent>
+            </Container>
+          </ViewWrapper>
+        </>
+      ) : null}
     </>
   );
 }
