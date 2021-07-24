@@ -27,9 +27,9 @@ const CardItem = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const CardCover = styled.div`
+const CardCover = styled.img`
   height: 100%;
-  width: 100%;
+  width: -webkit-fill-available;
 `;
 const CardContent = styled.div`
   flex: 1;
@@ -37,6 +37,21 @@ const CardContent = styled.div`
   word-break: break-word;
   overflow: hidden;S
   text-overflow: ellipsis;
+`;
+const Search = styled.input`
+  border: none;
+  outline: none;
+  box-shadow: 0 0 8px rgb(0 0 0 / 25%);
+  border-radius: 5px;
+  padding: 14px;
+  width: -webkit-fill-available;
+  margin: 30px;
+`;
+const Loading = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
 function Home() {
   const [resData, setResData] = useState("");
@@ -78,44 +93,39 @@ function Home() {
 
   return (
     <>
-      <input
+      <Search
         type="search"
         onChange={(e) => debounceSearch(e)}
-        className="searchInput"
-        placeholder="Search by Title"
+        placeholder="search for a title..."
       />
       <Card>
-        {filteredData
-          ? filteredData.map((x) => {
-              return (
-                <Link
-                  to={{
-                    pathname: `/${x.data.id}`,
-                    state: {
-                      imageData: x.data,
-                    },
-                  }}
-                  key={x.data.id}
-                  style={{ textDecoration: "none" }}
-                >
-                  <CardItemWrapper>
-                    <CardItem>
-                      <CardCover>
-                        <img
-                          src={x.data.thumbnail}
-                          className="img-thumbnail"
-                          alt={x.data.post_hint}
-                        />
-                      </CardCover>
-                      <CardContent>
-                        <h5>{x.data.title}</h5>
-                      </CardContent>
-                    </CardItem>
-                  </CardItemWrapper>
-                </Link>
-              );
-            })
-          : null}
+        {filteredData ? (
+          filteredData.map((x) => {
+            return (
+              <Link
+                to={{
+                  pathname: `/${x.data.id}`,
+                  state: {
+                    imageData: x.data,
+                  },
+                }}
+                key={x.data.id}
+                style={{ textDecoration: "none" }}
+              >
+                <CardItemWrapper>
+                  <CardItem>
+                    <CardCover src={x.data.thumbnail} alt={x.data.post_hint} />
+                    <CardContent>
+                      <h5>{x.data.title}</h5>
+                    </CardContent>
+                  </CardItem>
+                </CardItemWrapper>
+              </Link>
+            );
+          })
+        ) : (
+          <Loading>Loading...</Loading>
+        )}
       </Card>
     </>
   );
